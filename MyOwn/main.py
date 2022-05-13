@@ -4,15 +4,18 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy import false, true
 import datetime
+
+#Calculates the percent change of two given stock prices
 def Stockchange(first,second):
     float(first)
     float(second)
     return (second-first)/first
 
+#allows automation of ticker based on user selection
 Ticker = input('Choose Ticker')
 url = 'https://finance.yahoo.com/quote/'+ Ticker +'?p='+ Ticker
 
-
+#Web Scraping
 html_text = requests.get(url).text
 soup = BeautifulSoup(html_text, 'lxml')
 stock_info  = soup.find('div', class_ = 'Bgc($bg-body) Mih(100%) W(100%) Bgc($layoutBgColor)! finance US')# finds the info on webpage that we care abput
@@ -41,7 +44,7 @@ inc = false
 neutral = false
 
 print(f''' Buy {Ticker} @ ${stock_price}''')
-
+#Automates this code
 while true:
     stock_price = float(stock_info.find('fin-streamer', class_ = 'Fw(b) Fz(36px) Mb(-4px) D(ib)').text)
     x = Stockchange(initialbuy,stock_price)
